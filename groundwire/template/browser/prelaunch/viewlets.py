@@ -32,8 +32,14 @@ class PerformanceChecksViewlet(ViewletBase):
         return status
         
     def kssDebugModeStatus(self):
-        tool = getToolByName(self.context, 'portal_kss')
-        status = tool.getDebugMode() and 'On' or 'Off'
+        try:
+            tool = getToolByName(self.context, 'portal_kss')
+            status = tool.getDebugMode() and 'On' or 'Off'
+        except AttributeError, e:
+            if e.message == 'portal_kss':
+                status = 'Not Available'
+            else:
+                raise
         return status
 
     def cachingStatus(self):

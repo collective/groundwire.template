@@ -10,9 +10,11 @@
 	<dd>Debug mode is <strong tal:content="view/javascriptDebugModeStatus"/>.</dd>
 </dl>
 
-<dl tal:attributes="class python:'portalMessage ' + str(view.kssDebugModeStatus() == 'On' and 'error' or 'info')">
+<dl tal:define="kssStatus view/kssDebugModeStatus"
+    tal:attributes="class python:'portalMessage ' + str(kssStatus == 'On' and 'error' or 'info')">
     <dt>KSS</dt>
-	<dd>Debug mode is <strong tal:content="view/kssDebugModeStatus"/>.</dd>
+	<dd tal:condition="python:kssStatus in ['On', 'Off']">Debug mode is <strong tal:content="kssStatus"/>.</dd>
+    <dd tal:condition="python:kssStatus == 'Not Available'"><strong tal:content="kssStatus"/>.</dd>
 </dl>
 
 <dl tal:attributes="class python:'portalMessage ' + str(view.cachingStatus() != 'On' and 'error' or 'info')">
